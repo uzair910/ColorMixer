@@ -26,7 +26,6 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center">
         <components:ColorNode  Color="{Binding SelectedColor, ElementName=Window}" />
-          
         <Button Grid.Row="0" Grid.Column="1" Height="30" Width="100" 
             Style="{StaticResource RoundButton}"
             Margin="5 10 5 0"
