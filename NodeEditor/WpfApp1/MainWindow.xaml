@@ -1,12 +1,23 @@
 ﻿<Window x:Class="WpfApp1.MainWindow"
+        x:Name="Window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:components="clr-namespace:NodeEditor.Components"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <xctk:ColorPicker Name="colorPicker" MinWidth="100" VerticalAlignment="Center" Margin="5" DisplayColorAndName="True" SelectedColorChanged="cp_SelectedColorChanged_1" AvailableColorsSortingMode="HueSaturationBrightness" />
+            <components:ColorNode Color="{Binding SelectedColor, ElementName=Window}" VerticalAlignment="Center"/>
+            <!--Connecter line-->
+        </StackPanel>
 
     </Grid>
 </Window>
