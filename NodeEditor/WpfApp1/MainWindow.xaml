@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
+            <!--<RowDefinition Height="200"/>-->
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -46,6 +47,5 @@
                    >
             </Canvas>
         </DockPanel>
-
     </Grid>
 </Window>

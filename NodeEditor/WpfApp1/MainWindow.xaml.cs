@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace NodeEditor
 {
@@ -60,8 +61,9 @@ namespace NodeEditor
         #region Canvas Functions
 
         UIElement dragObject = null;
-        Point offset;
-
+        UIElement sourceNode = null;
+        UIElement targetNode = null; // for linking
+        Point sourceOffset;
         private void AddNodeToCanvas()
         {
             ColorNode node = new ColorNode();
@@ -71,23 +73,40 @@ namespace NodeEditor
             node.PreviewMouseDown += Node_PreviewMouseDown;
             cvsBoard.Children.Add(node);
         }
-        
+
         #region events
         private void Node_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            this.dragObject = sender as UIElement;
-            this.offset = e.GetPosition(this.cvsBoard);
-            this.offset.X -= Canvas.GetLeft(this.dragObject);
-            this.offset.Y -= Canvas.GetTop(this.dragObject);
-            this.cvsBoard.CaptureMouse();
+
+            // If left ctrl is pressed, that means we need to connect the objects.
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                if (this.sourceNode == null)
+                    this.sourceNode = sender as UIElement;
+                else
+                    this.targetNode = sender as UIElement;
+
+                if(this.targetNode != null && this.sourceNode != null)
+                {
+                    // lets connect the lines
+                }
+            }
+            else
+            {
+                this.dragObject = sender as UIElement;
+                this.sourceOffset = e.GetPosition(this.cvsBoard);
+                this.sourceOffset.X -= Canvas.GetLeft(this.dragObject);
+                this.sourceOffset.Y -= Canvas.GetTop(this.dragObject);
+                this.cvsBoard.CaptureMouse();
+            }
         }
         private void cvsBoard_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (this.dragObject == null)
                 return;
             var position = e.GetPosition(sender as IInputElement);
-            Canvas.SetLeft(this.dragObject, position.X - this.offset.X);
-            Canvas.SetTop(this.dragObject, position.Y - this.offset.Y);
+            Canvas.SetLeft(this.dragObject, position.X - this.sourceOffset.X);
+            Canvas.SetTop(this.dragObject, position.Y - this.sourceOffset.Y);
         }
 
         private void cvsBoard_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
