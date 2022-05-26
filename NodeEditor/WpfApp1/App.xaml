@@ -4,6 +4,23 @@
              xmlns:local="clr-namespace:NodeEditor"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <LinearGradientBrush x:Key="ButtonBackground" StartPoint="0.504,0.03" EndPoint="0.504,1.5">
+            <GradientStop Offset="0"
+                Color="#43cea2" />
+            <GradientStop Offset="1"
+                Color="#185a9d" />
+        </LinearGradientBrush>
+        <Style x:Key="RoundButton" TargetType="Button">
+            <Setter Property="Foreground" Value="MintCream" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="20" Background="{StaticResource ButtonBackground}" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>

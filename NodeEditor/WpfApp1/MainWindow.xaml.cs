@@ -16,6 +16,16 @@ namespace NodeEditor
             SetRandomNodeColor();
         }
 
+        public Brush SelectedColor
+        {
+            get { return (Brush)GetValue(SelectedColorProperty); }
+            set { SetValue(SelectedColorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedColor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedColorProperty =
+            DependencyProperty.Register("SelectedColor", typeof(Brush), typeof(MainWindow), new PropertyMetadata(Brushes.Transparent));
+
         private void SetRandomNodeColor()
         {
             Brush result = Brushes.Transparent;
@@ -36,20 +46,12 @@ namespace NodeEditor
             }
         }
 
-
-
-        public Brush SelectedColor
+        private void AddToCanvasBtnClicked(object sender, RoutedEventArgs e)
         {
-            get { return (Brush)GetValue(SelectedColorProperty); }
-            set { SetValue(SelectedColorProperty, value); }
+            if (colorPicker.SelectedColor.HasValue)
+            {
+                MessageBox.Show($"{colorPicker.SelectedColor.Value.ToString()} is added to canvas.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
-
-        // Using a DependencyProperty as the backing store for SelectedColor.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedColorProperty =
-            DependencyProperty.Register("SelectedColor", typeof(Brush), typeof(MainWindow), new PropertyMetadata(Brushes.Transparent));
-
-
-
-
     }
 }

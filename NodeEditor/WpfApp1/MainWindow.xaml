@@ -10,21 +10,30 @@
         WindowStartupLocation="CenterScreen">
     <Grid Margin="25">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition  />
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Width="150">
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Width="150"  HorizontalAlignment="Center">
             <Label Content="Pick a color:" HorizontalAlignment="Center"/>
-            <xctk:ColorPicker Name="colorPicker" MinWidth="100" Margin="5" HorizontalAlignment="Center" DisplayColorAndName="True" 
+            <xctk:ColorPicker Name="colorPicker" MinWidth="100" Margin="5" DisplayColorAndName="True"  
                               SelectedColorChanged="cp_SelectedColorChanged" AvailableColorsSortingMode="HueSaturationBrightness" />
         </StackPanel>
-        <components:ColorNode Grid.Row="0" Grid.Column="1" Color="{Binding SelectedColor, ElementName=Window}" VerticalAlignment="Center" />
+        <components:ColorNode Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
+                              Color="{Binding SelectedColor, ElementName=Window}" 
+                              AddToCanvasBtnClick="AddToCanvasBtnClicked"/>
             <!--Connecter line-->
-        
+
+        <DockPanel Grid.Row="1" Grid.ColumnSpan="4">
+            <Canvas x:Name="cvsChart" 
+                Background="Aqua">
+            </Canvas>
+        </DockPanel>
 
     </Grid>
 </Window>

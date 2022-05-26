@@ -31,6 +31,20 @@ namespace NodeEditor.Components
             set { SetValue(ColorProperty, value); }
         }
 
+        public static readonly RoutedEvent AddToCanvasBtnClickEvent =
+           EventManager.RegisterRoutedEvent(nameof(AddToCanvasBtnClick), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorNode));
+
+        public event RoutedEventHandler AddToCanvasBtnClick
+        {
+            add { AddHandler(AddToCanvasBtnClickEvent, value); }
+            remove { RemoveHandler(AddToCanvasBtnClickEvent, value); }
+        }
+        
+        private void OnAddToCanvasBtnClick(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(AddToCanvasBtnClickEvent));
+        }
+
         public ColorNode()
         {
             InitializeComponent();
