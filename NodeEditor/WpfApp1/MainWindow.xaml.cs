@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NodeEditor.Components;
+using System;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
@@ -16,6 +17,7 @@ namespace NodeEditor
             SetRandomNodeColor();
         }
 
+        #region Toolbar controls and functions
         public Brush SelectedColor
         {
             get { return (Brush)GetValue(SelectedColorProperty); }
@@ -51,7 +53,20 @@ namespace NodeEditor
             if (colorPicker.SelectedColor.HasValue)
             {
                 MessageBox.Show($"{colorPicker.SelectedColor.Value.ToString()} is added to canvas.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                AddNodeToCanvas(colorPicker.SelectedColor.Value);
             }
         }
+
+
+        #endregion
+
+        #region Canvas Functions
+        private void AddNodeToCanvas(Color value)
+        {
+            //ColorNode node = new 
+            //cvsBoard.Children.Add()
+        }
+
+        #endregion
     }
 }
