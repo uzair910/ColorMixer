@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace NodeEditor
@@ -39,7 +40,7 @@ namespace NodeEditor
             SelectedColor = result;
         }
 
-        private void cp_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        private void colorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
         {
             if (colorPicker.SelectedColor.HasValue)
             {
@@ -50,23 +51,54 @@ namespace NodeEditor
 
         private void AddToCanvasBtnClicked(object sender, RoutedEventArgs e)
         {
-            if (colorPicker.SelectedColor.HasValue)
-            {
-                MessageBox.Show($"{colorPicker.SelectedColor.Value.ToString()} is added to canvas.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-                AddNodeToCanvas(colorPicker.SelectedColor.Value);
-            }
+            AddNodeToCanvas();
         }
 
 
         #endregion
 
         #region Canvas Functions
-        private void AddNodeToCanvas(Color value)
+
+        UIElement dragObject = null;
+        Point offset;
+
+        private void AddNodeToCanvas()
         {
-            //ColorNode node = new 
-            //cvsBoard.Children.Add()
+            ColorNode node = new ColorNode();
+            node.Color = SelectedColor;
+            Canvas.SetLeft(node, 20);
+            Canvas.SetTop(node, 20);
+            node.PreviewMouseDown += Node_PreviewMouseDown;
+            cvsBoard.Children.Add(node);
+        }
+        
+        #region events
+        private void Node_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.dragObject = sender as UIElement;
+            this.offset = e.GetPosition(this.cvsBoard);
+            this.offset.X -= Canvas.GetLeft(this.dragObject);
+            this.offset.Y -= Canvas.GetTop(this.dragObject);
+            this.cvsBoard.CaptureMouse();
+        }
+        private void cvsBoard_PreviewMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (this.dragObject == null)
+                return;
+            var position = e.GetPosition(sender as IInputElement);
+            Canvas.SetLeft(this.dragObject, position.X - this.offset.X);
+            Canvas.SetTop(this.dragObject, position.Y - this.offset.Y);
+        }
+
+        private void cvsBoard_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            this.dragObject = null;
+            this.cvsBoard.ReleaseMouseCapture();
         }
 
         #endregion
+
+        #endregion
+
     }
 }
