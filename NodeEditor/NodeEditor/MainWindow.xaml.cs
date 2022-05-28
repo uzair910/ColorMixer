@@ -30,6 +30,20 @@ namespace NodeEditor
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register("SelectedColor", typeof(Brush), typeof(MainWindow), new PropertyMetadata(Brushes.Transparent));
 
+
+
+        public Brush MixedColor
+        {
+            get { return (Brush)GetValue(MixedColorProperty); }
+            set { SetValue(MixedColorProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MixedColor.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MixedColorProperty =
+            DependencyProperty.Register("MixedColor", typeof(Brush), typeof(MainWindow), new PropertyMetadata(Brushes.Transparent));
+
+
+
         private void SetRandomNodeColor()
         {
             Brush result = Brushes.Transparent;
@@ -39,6 +53,12 @@ namespace NodeEditor
             int random = rnd.Next(properties.Length);
             result = (Brush)properties[random].GetValue(null, null);
             SelectedColor = result;
+
+            // Delete this
+            //random = rnd.Next(properties.Length);
+            //result = (Brush)properties[random].GetValue(null, null);
+            //MixedColor = result;
+
         }
 
         private void colorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
@@ -51,8 +71,9 @@ namespace NodeEditor
         }
 
         private void AddToCanvasBtnClicked(object sender, RoutedEventArgs e)
-        {
-            AddNodeToCanvas();
+        { 
+            // cannot pass dependency property as reference
+            AddNodeToCanvas(SelectedColor);
         }
 
 
@@ -64,10 +85,12 @@ namespace NodeEditor
         UIElement sourceNode = null;
         UIElement targetNode = null; // for linking
         Point sourceOffset;
-        private void AddNodeToCanvas()
+
+
+        private void AddNodeToCanvas(Brush color)
         {
             ColorNode node = new ColorNode();
-            node.Color = SelectedColor;
+            node.Color = color;
             Canvas.SetLeft(node, 20);
             Canvas.SetTop(node, 20);
             node.PreviewMouseDown += Node_PreviewMouseDown;
@@ -75,6 +98,13 @@ namespace NodeEditor
         }
 
         #region events
+        private void AddMixedColorToCanvasBtnClicked(object sender, RoutedEventArgs e)
+        {
+            //cannot pass dependency property as reference
+            AddNodeToCanvas(MixedColor);
+        }
+
+
         private void Node_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
 
@@ -89,7 +119,17 @@ namespace NodeEditor
                 if(this.targetNode != null && this.sourceNode != null)
                 {
                     // lets connect the lines
+
+                    ColorNode s= sourceNode as ColorNode;
+                    Brush color1 = (sourceNode as ColorNode).Color;
+                    Brush color2 = (targetNode as ColorNode).Color;
+
+
+
                 }
+
+
+                // Mixer
             }
             else
             {
@@ -119,5 +159,6 @@ namespace NodeEditor
 
         #endregion
 
+    
     }
 }
